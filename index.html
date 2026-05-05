@@ -3,958 +3,895 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Olum — SEO & GEO Intelligence Agency</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<title>OLUM.ai — SEO · GEO · Lead Intelligence Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  :root{
-    --black:#070708;
-    --white:#F5F4F0;
-    --accent:#C8F54A;
-    --accent2:#4AF5C8;
-    --gray:#1A1A1C;
-    --gray2:#2A2A2E;
-    --muted:#6B6B72;
-    --text:#E8E7E2;
-  }
-  html{scroll-behavior:smooth}
-  body{
-    font-family:'Poppins',sans-serif;
-    background:var(--black);
-    color:var(--text);
-    overflow-x:hidden;
-    cursor:none;
-  }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-  /* CUSTOM CURSOR */
-  .cursor{
-    width:12px;height:12px;
-    background:var(--accent);
-    border-radius:50%;
-    position:fixed;top:0;left:0;
-    pointer-events:none;z-index:99999;
-    transform:translate(-50%,-50%);
-    transition:transform 0.1s,width 0.3s,height 0.3s,background 0.3s;
-  }
-  .cursor-follow{
-    width:40px;height:40px;
-    border:1.5px solid rgba(200,245,74,0.4);
-    border-radius:50%;
-    position:fixed;top:0;left:0;
-    pointer-events:none;z-index:99998;
-    transform:translate(-50%,-50%);
-    transition:left 0.12s ease,top 0.12s ease,width 0.3s,height 0.3s;
-  }
-  body:has(a:hover) .cursor{width:20px;height:20px;background:var(--accent2)}
-  body:has(button:hover) .cursor{width:20px;height:20px}
+:root {
+  --royal-blue: #1e3a8a;
+  --royal-blue-light: #3b82f6;
+  --royal-blue-dark: #1e40af;
+  --accent: #2563eb;
+  --white: #ffffff;
+  --gray-50: #f8fafc;
+  --gray-100: #f1f5f9;
+  --gray-200: #e2e8f0;
+  --gray-400: #94a3b8;
+  --gray-600: #475569;
+  --gray-800: #1e293b;
+}
 
-  /* NAV */
-  nav{
-    position:fixed;top:0;left:0;right:0;
-    padding:1.5rem 5vw;
-    display:flex;align-items:center;justify-content:space-between;
-    z-index:1000;
-    transition:background 0.4s,backdrop-filter 0.4s;
-  }
-  nav.scrolled{
-    background:rgba(7,7,8,0.85);
-    backdrop-filter:blur(20px);
-    border-bottom:1px solid rgba(200,245,74,0.1);
-  }
-  .logo{
-    font-size:1.6rem;font-weight:800;
-    letter-spacing:-0.05em;
-    color:var(--white);
-  }
-  .logo span{color:var(--accent)}
-  .nav-links{display:flex;gap:2.5rem;list-style:none}
-  .nav-links a{
-    font-size:0.85rem;font-weight:500;letter-spacing:0.05em;
-    color:var(--muted);text-decoration:none;text-transform:uppercase;
-    transition:color 0.3s;
-  }
-  .nav-links a:hover{color:var(--accent)}
-  .nav-cta{
-    background:var(--accent);color:var(--black);
-    padding:0.65rem 1.6rem;border-radius:100px;
-    font-size:0.8rem;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
-    text-decoration:none;transition:transform 0.3s,box-shadow 0.3s;
-    box-shadow:0 0 0 0 rgba(200,245,74,0.4);
-  }
-  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 0 30px rgba(200,245,74,0.35)}
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--white);
+  color: var(--gray-800);
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+}
 
-  /* HERO */
-  #hero{
-    min-height:100vh;
-    display:flex;flex-direction:column;justify-content:center;
-    padding:10rem 5vw 6rem;
-    position:relative;overflow:hidden;
-  }
-  .hero-grid-bg{
-    position:absolute;inset:0;
-    background-image:
-      linear-gradient(rgba(200,245,74,0.04) 1px,transparent 1px),
-      linear-gradient(90deg,rgba(200,245,74,0.04) 1px,transparent 1px);
-    background-size:80px 80px;
-    mask-image:radial-gradient(ellipse 70% 80% at 50% 40%,black 40%,transparent 100%);
-    animation:gridDrift 20s linear infinite;
-  }
-  @keyframes gridDrift{
-    0%{background-position:0 0}
-    100%{background-position:80px 80px}
-  }
-  .hero-glow{
-    position:absolute;top:-20%;left:50%;transform:translateX(-50%);
-    width:900px;height:600px;
-    background:radial-gradient(ellipse,rgba(200,245,74,0.08) 0%,transparent 65%);
-    pointer-events:none;
-    animation:glowPulse 6s ease-in-out infinite;
-  }
-  @keyframes glowPulse{
-    0%,100%{opacity:0.6;transform:translateX(-50%) scale(1)}
-    50%{opacity:1;transform:translateX(-50%) scale(1.1)}
-  }
-  .hero-eyebrow{
-    display:inline-flex;align-items:center;gap:0.5rem;
-    background:rgba(200,245,74,0.08);
-    border:1px solid rgba(200,245,74,0.2);
-    padding:0.4rem 1rem;border-radius:100px;
-    font-size:0.75rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
-    color:var(--accent);width:fit-content;margin-bottom:2rem;
-    animation:fadeUp 0.8s 0.2s both;
-  }
-  .hero-eyebrow::before{content:'';width:6px;height:6px;background:var(--accent);border-radius:50%;animation:blink 2s infinite}
-  @keyframes blink{0%,100%{opacity:1}50%{opacity:0.2}}
-  .hero-title{
-    font-size:clamp(3.5rem,8vw,8rem);
-    font-weight:900;line-height:0.95;letter-spacing:-0.04em;
-    margin-bottom:1.5rem;
-    animation:fadeUp 0.8s 0.4s both;
-  }
-  .hero-title .line2{
-    display:block;
-    -webkit-text-stroke:1px rgba(200,245,74,0.4);
-    color:transparent;
-  }
-  .hero-title .accent-word{color:var(--accent)}
-  .hero-sub{
-    font-size:clamp(1rem,1.5vw,1.2rem);font-weight:300;
-    color:var(--muted);max-width:540px;line-height:1.7;
-    margin-bottom:3rem;
-    animation:fadeUp 0.8s 0.6s both;
-  }
-  .hero-actions{
-    display:flex;gap:1rem;align-items:center;flex-wrap:wrap;
-    animation:fadeUp 0.8s 0.8s both;
-  }
-  .btn-primary{
-    background:var(--accent);color:var(--black);
-    padding:1rem 2.5rem;border-radius:100px;
-    font-size:0.9rem;font-weight:700;letter-spacing:0.02em;
-    text-decoration:none;border:none;cursor:none;
-    display:inline-flex;align-items:center;gap:0.6rem;
-    transition:transform 0.3s,box-shadow 0.3s;
-  }
-  .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 60px rgba(200,245,74,0.3)}
-  .btn-secondary{
-    background:transparent;color:var(--white);
-    padding:1rem 2.5rem;border-radius:100px;
-    font-size:0.9rem;font-weight:500;
-    text-decoration:none;
-    border:1px solid rgba(255,255,255,0.15);
-    display:inline-flex;align-items:center;gap:0.6rem;
-    transition:border-color 0.3s,color 0.3s;cursor:none;
-  }
-  .btn-secondary:hover{border-color:var(--accent);color:var(--accent)}
+/* Background Video Layer - Subtle like shadow */
+.bg-video-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
 
-  .hero-stats{
-    display:flex;gap:3rem;margin-top:5rem;flex-wrap:wrap;
-    animation:fadeUp 0.8s 1s both;
-  }
-  .stat-item .num{
-    font-size:2.5rem;font-weight:800;color:var(--white);
-    letter-spacing:-0.04em;display:flex;align-items:flex-start;
-  }
-  .stat-item .num sup{font-size:1rem;color:var(--accent);margin-top:0.4rem}
-  .stat-item .label{font-size:0.8rem;color:var(--muted);font-weight:400;margin-top:0.2rem}
+.bg-video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  filter: blur(0px) grayscale(10%);
+  object-fit: cover;
+}
 
-  .scroll-indicator{
-    position:absolute;bottom:3rem;left:50%;transform:translateX(-50%);
-    display:flex;flex-direction:column;align-items:center;gap:0.5rem;
-    color:var(--muted);font-size:0.7rem;letter-spacing:0.1em;text-transform:uppercase;
-    animation:fadeIn 1s 1.5s both;
-  }
-  .scroll-indicator .line{
-    width:1px;height:60px;background:linear-gradient(var(--accent),transparent);
-    animation:scrollLine 2s ease-in-out infinite;
-  }
-  @keyframes scrollLine{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+/* White overlay to make video even more subtle */
+.video-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 250, 252, 0.92) 50%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  z-index: 1;
+}
 
-  @keyframes fadeUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+/* Animated background patterns */
+.bg-pattern {
+  position: fixed;
+  inset: 0;
+  z-index: 2;
+  overflow: hidden;
+  pointer-events: none;
+}
 
-  /* MARQUEE TICKER */
-  .ticker{
-    padding:1.2rem 0;
-    background:var(--accent);overflow:hidden;
-    border-top:1px solid transparent;border-bottom:1px solid transparent;
-  }
-  .ticker-track{
-    display:flex;gap:4rem;white-space:nowrap;
-    animation:ticker 25s linear infinite;
-  }
-  .ticker-item{
-    font-size:0.8rem;font-weight:700;color:var(--black);
-    text-transform:uppercase;letter-spacing:0.08em;
-    display:flex;align-items:center;gap:1rem;flex-shrink:0;
-  }
-  .ticker-item::after{content:'✦';opacity:0.5}
-  @keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.circle-orbit {
+  position: absolute;
+  border: 1px solid rgba(30, 58, 138, 0.08);
+  border-radius: 50%;
+  animation: spin 40s linear infinite;
+}
 
-  /* SECTION COMMON */
-  section{padding:7rem 5vw}
-  .section-tag{
-    display:inline-flex;align-items:center;gap:0.5rem;
-    font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:1.2rem;
-  }
-  .section-tag::before{content:'';display:block;width:24px;height:1px;background:var(--accent)}
-  .section-title{
-    font-size:clamp(2.2rem,4vw,3.5rem);
-    font-weight:800;letter-spacing:-0.03em;line-height:1.1;
-    color:var(--white);margin-bottom:1.2rem;
-  }
-  .section-sub{font-size:1rem;color:var(--muted);max-width:500px;line-height:1.7;font-weight:300}
+.circle-orbit-1 {
+  width: 600px;
+  height: 600px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 
-  /* SERVICES */
-  #services{background:var(--black)}
-  .services-header{
-    display:grid;grid-template-columns:1fr 1fr;gap:4rem;
-    align-items:end;margin-bottom:5rem;
-  }
-  .services-grid{
-    display:grid;grid-template-columns:repeat(3,1fr);gap:1.5px;
-    background:rgba(200,245,74,0.08);
-    border-radius:20px;overflow:hidden;
-  }
-  .service-card{
-    background:var(--gray);
-    padding:2.5rem 2rem;
-    transition:background 0.4s;
-    position:relative;overflow:hidden;
-  }
-  .service-card::before{
-    content:'';position:absolute;inset:0;
-    background:linear-gradient(135deg,rgba(200,245,74,0.05),transparent);
-    opacity:0;transition:opacity 0.4s;
-  }
-  .service-card:hover{background:var(--gray2)}
-  .service-card:hover::before{opacity:1}
-  .service-icon{
-    width:52px;height:52px;
-    background:rgba(200,245,74,0.1);border-radius:14px;
-    display:flex;align-items:center;justify-content:center;
-    margin-bottom:1.5rem;font-size:1.4rem;
-    border:1px solid rgba(200,245,74,0.15);
-    transition:transform 0.3s;
-  }
-  .service-card:hover .service-icon{transform:scale(1.1) rotate(-5deg)}
-  .service-card h3{font-size:1.05rem;font-weight:700;color:var(--white);margin-bottom:0.7rem;letter-spacing:-0.02em}
-  .service-card p{font-size:0.85rem;color:var(--muted);line-height:1.7;font-weight:300}
-  .service-tag{
-    display:inline-block;margin-top:1.2rem;
-    font-size:0.7rem;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;
-    color:var(--accent);opacity:0.7;
-  }
+.circle-orbit-2 {
+  width: 900px;
+  height: 900px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 60s;
+  animation-direction: reverse;
+}
 
-  /* HOW IT WORKS */
-  #process{background:var(--gray)}
-  .process-header{text-align:center;margin-bottom:5rem}
-  .process-header .section-title{margin-inline:auto}
-  .process-header .section-sub{margin-inline:auto;text-align:center}
-  .steps{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:0;
-    position:relative;
-  }
-  .steps::before{
-    content:'';position:absolute;top:3rem;left:12.5%;right:12.5%;
-    height:1px;background:linear-gradient(90deg,transparent,rgba(200,245,74,0.3),transparent);
-  }
-  .step{
-    padding:0 2rem;text-align:center;position:relative;
-    opacity:0;transform:translateY(20px);
-    transition:opacity 0.6s,transform 0.6s;
-  }
-  .step.visible{opacity:1;transform:translateY(0)}
-  .step-num{
-    width:6rem;height:6rem;margin:0 auto 2rem;
-    border:1px solid rgba(200,245,74,0.25);
-    border-radius:50%;display:flex;align-items:center;justify-content:center;
-    font-size:1.4rem;font-weight:800;color:var(--accent);
-    background:var(--black);position:relative;z-index:1;
-    transition:border-color 0.3s,box-shadow 0.3s;
-  }
-  .step:hover .step-num{border-color:var(--accent);box-shadow:0 0 30px rgba(200,245,74,0.2)}
-  .step h3{font-size:1rem;font-weight:700;color:var(--white);margin-bottom:0.7rem}
-  .step p{font-size:0.82rem;color:var(--muted);line-height:1.7;font-weight:300}
+.circle-orbit-3 {
+  width: 1200px;
+  height: 1200px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation-duration: 80s;
+}
 
-  /* GEO FEATURE */
-  #geo{background:var(--black);overflow:hidden}
-  .geo-grid{display:grid;grid-template-columns:1fr 1fr;gap:6rem;align-items:center}
-  .geo-visual{
-    position:relative;height:500px;
-    border-radius:24px;overflow:hidden;
-    background:var(--gray);
-    border:1px solid rgba(200,245,74,0.1);
-  }
-  .geo-map{
-    position:absolute;inset:0;
-    background:radial-gradient(ellipse at center,rgba(200,245,74,0.05) 0%,transparent 60%);
-  }
-  .geo-dots{position:absolute;inset:0}
-  .geo-dot{
-    position:absolute;
-    width:8px;height:8px;border-radius:50%;
-    background:var(--accent);
-    box-shadow:0 0 12px var(--accent);
-  }
-  .geo-dot::after{
-    content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:24px;height:24px;border-radius:50%;
-    border:1px solid rgba(200,245,74,0.3);
-    animation:ripple 3s ease-out infinite;
-  }
-  @keyframes ripple{0%{transform:translate(-50%,-50%) scale(0);opacity:1}100%{transform:translate(-50%,-50%) scale(3);opacity:0}}
-  .geo-line{
-    position:absolute;background:linear-gradient(90deg,transparent,rgba(200,245,74,0.4),transparent);
-    height:1px;animation:scan 4s ease-in-out infinite;
-  }
-  @keyframes scan{0%{top:20%;opacity:0}20%{opacity:1}80%{opacity:1}100%{top:80%;opacity:0}}
-  .geo-label{
-    position:absolute;
-    background:rgba(7,7,8,0.8);
-    border:1px solid rgba(200,245,74,0.2);
-    border-radius:8px;padding:0.4rem 0.8rem;
-    font-size:0.7rem;font-weight:600;color:var(--accent);
-    white-space:nowrap;
-  }
-  .geo-badge{
-    position:absolute;bottom:2rem;left:2rem;right:2rem;
-    background:rgba(7,7,8,0.85);backdrop-filter:blur(10px);
-    border:1px solid rgba(200,245,74,0.15);
-    border-radius:16px;padding:1.5rem;
-    display:flex;gap:1.5rem;align-items:center;
-  }
-  .geo-badge-icon{font-size:2rem}
-  .geo-badge strong{display:block;color:var(--white);font-size:0.9rem}
-  .geo-badge span{color:var(--muted);font-size:0.78rem}
+@keyframes spin {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
 
-  .geo-features{margin-top:2.5rem;display:flex;flex-direction:column;gap:1rem}
-  .geo-feature{
-    display:flex;align-items:flex-start;gap:1rem;
-    padding:1.2rem;border-radius:14px;
-    background:var(--gray);
-    border:1px solid rgba(255,255,255,0.04);
-    transition:border-color 0.3s,transform 0.3s;
-  }
-  .geo-feature:hover{border-color:rgba(200,245,74,0.2);transform:translateX(6px)}
-  .geo-feature-icon{
-    width:40px;height:40px;flex-shrink:0;
-    background:rgba(200,245,74,0.1);border-radius:10px;
-    display:flex;align-items:center;justify-content:center;font-size:1rem;
-  }
-  .geo-feature strong{display:block;color:var(--white);font-size:0.88rem;margin-bottom:0.2rem}
-  .geo-feature span{color:var(--muted);font-size:0.8rem;font-weight:300}
+.floating-dots {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
 
-  /* RESULTS / METRICS */
-  #results{
-    background:linear-gradient(180deg,var(--black) 0%,rgba(200,245,74,0.04) 50%,var(--black) 100%);
-    text-align:center;
-  }
-  .metrics-grid{
-    display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
-    background:rgba(200,245,74,0.08);border-radius:20px;overflow:hidden;margin-top:4rem;
-  }
-  .metric-card{
-    background:var(--gray);padding:3rem 2rem;
-    transition:background 0.3s;
-  }
-  .metric-card:hover{background:var(--gray2)}
-  .metric-card .big{
-    font-size:3.5rem;font-weight:900;letter-spacing:-0.04em;
-    color:var(--white);line-height:1;
-    display:flex;align-items:flex-start;justify-content:center;
-  }
-  .metric-card .big span{font-size:1.8rem;color:var(--accent);margin-top:0.3rem}
-  .metric-card p{font-size:0.82rem;color:var(--muted);margin-top:0.8rem;font-weight:300}
+.dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: var(--royal-blue);
+  border-radius: 50%;
+  opacity: 0;
+  animation: floatDot 8s ease-in-out infinite;
+}
 
-  /* TESTIMONIALS */
-  #testimonials{background:var(--gray)}
-  .testi-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem}
-  .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-  .testi-card{
-    background:var(--black);border-radius:20px;padding:2rem;
-    border:1px solid rgba(255,255,255,0.05);
-    transition:border-color 0.3s,transform 0.3s;position:relative;overflow:hidden;
-  }
-  .testi-card::before{
-    content:'❝';position:absolute;top:-0.5rem;right:1.5rem;
-    font-size:5rem;color:rgba(200,245,74,0.06);font-family:serif;line-height:1;
-  }
-  .testi-card:hover{border-color:rgba(200,245,74,0.15);transform:translateY(-4px)}
-  .stars{color:var(--accent);font-size:0.8rem;letter-spacing:0.1em;margin-bottom:1rem}
-  .testi-card p{font-size:0.88rem;color:var(--muted);line-height:1.8;font-weight:300;font-style:italic;margin-bottom:1.5rem}
-  .testi-author{display:flex;align-items:center;gap:0.8rem;border-top:1px solid rgba(255,255,255,0.06);padding-top:1rem}
-  .avatar{
-    width:40px;height:40px;border-radius:50%;
-    display:flex;align-items:center;justify-content:center;
-    font-weight:700;font-size:0.85rem;color:var(--black);flex-shrink:0;
-  }
-  .testi-author strong{font-size:0.85rem;color:var(--white);display:block}
-  .testi-author span{font-size:0.75rem;color:var(--muted)}
+.dot:nth-child(1) { left: 10%; top: 20%; animation-delay: 0s; }
+.dot:nth-child(2) { left: 85%; top: 15%; animation-delay: 1.5s; }
+.dot:nth-child(3) { left: 15%; top: 75%; animation-delay: 3s; }
+.dot:nth-child(4) { left: 90%; top: 80%; animation-delay: 4.5s; }
+.dot:nth-child(5) { left: 50%; top: 10%; animation-delay: 2s; }
+.dot:nth-child(6) { left: 30%; top: 85%; animation-delay: 5s; }
+.dot:nth-child(7) { left: 70%; top: 50%; animation-delay: 6s; }
+.dot:nth-child(8) { left: 20%; top: 40%; animation-delay: 7s; }
 
-  /* PRICING */
-  #pricing{background:var(--black);text-align:center}
-  .pricing-header{margin-bottom:4rem}
-  .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:900px;margin:0 auto}
-  .pricing-card{
-    background:var(--gray);border-radius:20px;padding:2.5rem;
-    border:1px solid rgba(255,255,255,0.05);
-    text-align:left;position:relative;transition:transform 0.3s,border-color 0.3s;
-  }
-  .pricing-card:hover{transform:translateY(-6px)}
-  .pricing-card.featured{
-    border-color:var(--accent);
-    background:linear-gradient(135deg,rgba(200,245,74,0.08),var(--gray));
-  }
-  .featured-badge{
-    position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-    background:var(--accent);color:var(--black);
-    font-size:0.68rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
-    padding:0.3rem 1rem;border-radius:0 0 8px 8px;
-  }
-  .plan-name{font-size:0.8rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:0.8rem}
-  .plan-price{
-    font-size:2.8rem;font-weight:900;color:var(--white);letter-spacing:-0.04em;
-    line-height:1;margin-bottom:0.4rem;display:flex;align-items:flex-start;gap:0.2rem;
-  }
-  .plan-price sup{font-size:1.2rem;color:var(--muted);font-weight:500;margin-top:0.5rem}
-  .plan-price sub{font-size:0.8rem;color:var(--muted);font-weight:400;align-self:flex-end;margin-bottom:0.2rem}
-  .plan-desc{font-size:0.8rem;color:var(--muted);margin-bottom:1.5rem;font-weight:300}
-  .plan-features{list-style:none;margin-bottom:2rem;display:flex;flex-direction:column;gap:0.7rem}
-  .plan-features li{font-size:0.82rem;color:var(--muted);display:flex;align-items:center;gap:0.6rem;font-weight:300}
-  .plan-features li::before{content:'✓';color:var(--accent);font-weight:700;font-size:0.75rem;flex-shrink:0}
-  .plan-btn{
-    width:100%;padding:0.9rem;border-radius:100px;
-    font-family:'Poppins',sans-serif;font-size:0.85rem;font-weight:600;
-    cursor:none;border:none;transition:transform 0.3s,box-shadow 0.3s;
-  }
-  .plan-btn.outline{background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.15)}
-  .plan-btn.outline:hover{border-color:var(--accent);color:var(--accent)}
-  .plan-btn.solid{background:var(--accent);color:var(--black)}
-  .plan-btn.solid:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(200,245,74,0.3)}
+@keyframes floatDot {
+  0%, 100% { opacity: 0; transform: translateY(0) scale(1); }
+  50% { opacity: 0.6; transform: translateY(-30px) scale(1.5); }
+}
 
-  /* CTA SECTION */
-  #cta{
-    background:var(--gray);
-    text-align:center;padding:8rem 5vw;position:relative;overflow:hidden;
-  }
-  .cta-glow{
-    position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:600px;height:400px;
-    background:radial-gradient(ellipse,rgba(200,245,74,0.08),transparent 65%);
-    pointer-events:none;
-  }
-  #cta .section-title{font-size:clamp(2.5rem,5vw,4.5rem);text-align:center;margin-inline:auto;max-width:700px}
-  #cta .section-sub{text-align:center;margin-inline:auto;margin-bottom:3rem}
-  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+/* Grid lines */
+.grid-lines {
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(30, 58, 138, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(30, 58, 138, 0.03) 1px, transparent 1px);
+  background-size: 80px 80px;
+  animation: gridMove 20s linear infinite;
+}
 
-  /* FOOTER */
-  footer{
-    background:var(--black);
-    border-top:1px solid rgba(255,255,255,0.06);
-    padding:4rem 5vw 2.5rem;
-  }
-  .footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:4rem;margin-bottom:3rem}
-  .footer-brand .logo{font-size:1.8rem;display:block;margin-bottom:0.8rem}
-  .footer-brand p{font-size:0.82rem;color:var(--muted);line-height:1.7;font-weight:300;max-width:280px}
-  .footer-col h4{font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--white);margin-bottom:1.2rem}
-  .footer-col ul{list-style:none;display:flex;flex-direction:column;gap:0.7rem}
-  .footer-col ul a{font-size:0.82rem;color:var(--muted);text-decoration:none;font-weight:300;transition:color 0.3s}
-  .footer-col ul a:hover{color:var(--accent)}
-  .footer-bottom{
-    border-top:1px solid rgba(255,255,255,0.06);
-    padding-top:1.5rem;
-    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;
-  }
-  .footer-bottom p{font-size:0.78rem;color:var(--muted)}
-  .footer-bottom p span{color:var(--accent)}
-  .socials{display:flex;gap:0.8rem}
-  .social-btn{
-    width:36px;height:36px;border-radius:50%;
-    background:var(--gray);border:1px solid rgba(255,255,255,0.08);
-    display:flex;align-items:center;justify-content:center;
-    font-size:0.8rem;text-decoration:none;color:var(--muted);
-    transition:border-color 0.3s,color 0.3s;
-  }
-  .social-btn:hover{border-color:var(--accent);color:var(--accent)}
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(80px, 80px); }
+}
 
-  /* SCROLL REVEAL */
-  .reveal{opacity:0;transform:translateY(24px);transition:opacity 0.7s,transform 0.7s}
-  .reveal.visible{opacity:1;transform:translateY(0)}
+/* Main container */
+.container {
+  position: relative;
+  z-index: 3;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-  /* FLOATING CONTACT */
-  .float-btn{
-    position:fixed;bottom:2rem;right:2rem;
-    background:var(--accent);color:var(--black);
-    padding:0.8rem 1.5rem;border-radius:100px;
-    font-family:'Poppins',sans-serif;font-size:0.8rem;font-weight:700;
-    letter-spacing:0.03em;
-    cursor:none;border:none;
-    box-shadow:0 8px 30px rgba(200,245,74,0.35);
-    z-index:900;animation:floatBounce 3s ease-in-out infinite;
-    display:flex;align-items:center;gap:0.5rem;
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 60px;
+  animation: slideDown 0.8s ease both;
+}
+
+.logo {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--royal-blue);
+  letter-spacing: -0.5px;
+  position: relative;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.logo::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--royal-blue-light), var(--accent));
+  transition: width 0.4s ease;
+}
+
+.logo:hover::after {
+  width: 100%;
+}
+
+.nav-links {
+  display: flex;
+  gap: 48px;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--gray-600);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.nav-links a::before {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 2px;
+  background: var(--royal-blue);
+  transition: width 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: var(--royal-blue);
+}
+
+.nav-links a:hover::before {
+  width: 100%;
+}
+
+/* Hero section */
+.hero {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 60px;
+  text-align: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  background: rgba(30, 58, 138, 0.06);
+  border: 1px solid rgba(30, 58, 138, 0.15);
+  border-radius: 100px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--royal-blue);
+  letter-spacing: 0.5px;
+  margin-bottom: 32px;
+  animation: fadeInUp 0.8s 0.2s ease both;
+}
+
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--royal-blue-light);
+  border-radius: 50%;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.3); }
+}
+
+.hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(48px, 6vw, 72px);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -2px;
+  margin-bottom: 24px;
+  color: var(--gray-800);
+  animation: fadeInUp 0.8s 0.3s ease both;
+}
+
+.highlight {
+  color: var(--royal-blue);
+  position: relative;
+  display: inline-block;
+}
+
+.highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 8px;
+  left: 0;
+  width: 100%;
+  height: 16px;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.2), rgba(37, 99, 235, 0.15));
+  z-index: -1;
+  animation: underlineGrow 1s 0.8s ease both;
+}
+
+@keyframes underlineGrow {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.hero p {
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--gray-600);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto 48px;
+  animation: fadeInUp 0.8s 0.4s ease both;
+}
+
+/* Input form */
+.input-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  max-width: 620px;
+  width: 100%;
+  margin: 0 auto 16px;
+  position: relative;
+  animation: fadeInUp 0.8s 0.5s ease both;
+}
+
+.url-input {
+  flex: 1;
+  padding: 20px 28px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  border: 2px solid rgba(30, 58, 138, 0.15);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--gray-800);
+  outline: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 20px rgba(30, 58, 138, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.url-input:focus {
+  border-color: var(--royal-blue-light);
+  background: rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 4px 20px rgba(30, 58, 138, 0.08),
+    0 0 0 4px rgba(59, 130, 246, 0.1);
+  transform: translateY(-2px);
+}
+
+.url-input::placeholder {
+  color: var(--gray-400);
+}
+
+.submit-btn {
+  padding: 20px 40px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  background: linear-gradient(135deg, var(--royal-blue-dark), var(--royal-blue-light));
+  color: var(--white);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 
+    0 4px 20px rgba(30, 58, 138, 0.25),
+    0 0 0 0 rgba(59, 130, 246, 0.4);
+  position: relative;
+  overflow: hidden;
+}
+
+.submit-btn::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s ease, height 0.6s ease;
+}
+
+.submit-btn:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 
+    0 8px 30px rgba(30, 58, 138, 0.35),
+    0 0 0 6px rgba(59, 130, 246, 0.15);
+}
+
+.submit-btn:active {
+  transform: translateY(-1px);
+}
+
+.helper-text {
+  font-size: 13px;
+  color: var(--gray-400);
+  animation: fadeInUp 0.8s 0.6s ease both;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.helper-text svg {
+  width: 16px;
+  height: 16px;
+  animation: sparkle 2s ease infinite;
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+  50% { opacity: 0.7; transform: scale(1.1) rotate(10deg); }
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 64px;
+  margin-top: 80px;
+  animation: fadeInUp 0.8s 0.7s ease both;
+}
+
+.stat-item {
+  text-align: center;
+  position: relative;
+}
+
+.stat-item::after {
+  content: '';
+  position: absolute;
+  right: -32px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, transparent, rgba(30, 58, 138, 0.15), transparent);
+}
+
+.stat-item:last-child::after {
+  display: none;
+}
+
+.stat-number {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 36px;
+  font-weight: 800;
+  background: linear-gradient(135deg, var(--royal-blue-dark), var(--royal-blue-light));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -1px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: var(--gray-600);
+  font-weight: 500;
+}
+
+/* Footer */
+.footer {
+  padding: 20px 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: slideUp 0.8s ease both;
+}
+
+.footer-links {
+  display: flex;
+  gap: 32px;
+  list-style: none;
+}
+
+.footer-links a {
+  color: var(--gray-400);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: var(--royal-blue);
+}
+
+.footer-social {
+  display: flex;
+  gap: 12px;
+}
+
+.social-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(30, 58, 138, 0.06);
+  border: 1px solid rgba(30, 58, 138, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--royal-blue);
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.social-icon:hover {
+  background: var(--royal-blue);
+  color: var(--white);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(30, 58, 138, 0.2);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
   }
-  @keyframes floatBounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Particles on hover */
+.particle {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  background: var(--royal-blue-light);
+  border-radius: 50%;
+  pointer-events: none;
+  animation: particleFly 1s ease-out forwards;
+  z-index: 9999;
+}
+
+@keyframes particleFly {
+  from {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translate(var(--tx), var(--ty)) scale(0);
+  }
+}
+
+/* Loading state */
+.submit-btn.loading {
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--royal-blue-dark), var(--royal-blue-light), var(--royal-blue-dark));
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .header, .footer {
+    padding: 20px 24px;
+  }
+  
+  .nav-links {
+    display: none;
+  }
+  
+  .hero {
+    padding: 0 24px;
+  }
+  
+  .input-group {
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .url-input, .submit-btn {
+    width: 100%;
+  }
+  
+  .stats {
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  
+  .stat-item::after {
+    display: none;
+  }
+}
 </style>
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follow" id="cursorFollow"></div>
+<!-- Background Video Layer -->
+<div class="bg-video-wrapper">
+  <video class="bg-video" autoplay muted loop playsinline>
+    <source src="./bg-video.mp4" type="video/mp4">
+  </video>
+  <div class="video-overlay"></div>
+</div>
 
-<!-- NAV -->
-<nav id="navbar">
-  <a href="#" class="logo">Olum<span>.</span></a>
-  <ul class="nav-links">
-    <li><a href="#services">Services</a></li>
-    <li><a href="#geo">GEO AI</a></li>
-    <li><a href="#results">Results</a></li>
-    <li><a href="#pricing">Pricing</a></li>
-    <li><a href="./olum-landing01.html">Model-02</a></li>
-    <li><a href="./olum-website.html">Model-03</a></li>
-  </ul>
-  <a href="#cta" class="nav-cta">Get Audit →</a>
-</nav>
-
-<!-- HERO -->
-<section id="hero">
-  <div class="hero-grid-bg"></div>
-  <div class="hero-glow"></div>
-  <div class="hero-eyebrow">
-    <span></span> AI-Powered SEO & GEO Agency
-  </div>
-  <h1 class="hero-title">
-    Rank Higher.<br>
-    <span class="line2">Grow <span class="accent-word">Faster.</span></span>
-  </h1>
-  <p class="hero-sub">Olum combines cutting-edge SEO strategies with GEO Intelligence — optimizing your brand for both search engines and AI-generated answers.</p>
-  <div class="hero-actions">
-    <a href="#cta" class="btn-primary">Start Free Audit <span>→</span></a>
-    <a href="#results" class="btn-secondary">See Our Results</a>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <div class="num">500<sup>+</sup></div>
-      <div class="label">Brands Scaled</div>
-    </div>
-    <div class="stat-item">
-      <div class="num">3.8x<sup>*</sup></div>
-      <div class="label">Avg Organic Growth</div>
-    </div>
-    <div class="stat-item">
-      <div class="num">98<sup>%</sup></div>
-      <div class="label">Client Retention</div>
-    </div>
-  </div>
-  <div class="scroll-indicator">
-    <div class="line"></div>
-    Scroll
-  </div>
-</section>
-
-<!-- TICKER -->
-<div class="ticker">
-  <div class="ticker-track" id="ticker">
-    <span class="ticker-item">SEO Optimization</span>
-    <span class="ticker-item">GEO Intelligence</span>
-    <span class="ticker-item">Technical Audits</span>
-    <span class="ticker-item">AI Search Visibility</span>
-    <span class="ticker-item">Link Building</span>
-    <span class="ticker-item">Content Strategy</span>
-    <span class="ticker-item">Core Web Vitals</span>
-    <span class="ticker-item">Schema Markup</span>
-    <span class="ticker-item">Local SEO</span>
-    <span class="ticker-item">Competitor Analysis</span>
-    <span class="ticker-item">SEO Optimization</span>
-    <span class="ticker-item">GEO Intelligence</span>
-    <span class="ticker-item">Technical Audits</span>
-    <span class="ticker-item">AI Search Visibility</span>
-    <span class="ticker-item">Link Building</span>
-    <span class="ticker-item">Content Strategy</span>
-    <span class="ticker-item">Core Web Vitals</span>
-    <span class="ticker-item">Schema Markup</span>
-    <span class="ticker-item">Local SEO</span>
-    <span class="ticker-item">Competitor Analysis</span>
+<!-- Animated Background -->
+<div class="bg-pattern">
+  <div class="circle-orbit circle-orbit-1"></div>
+  <div class="circle-orbit circle-orbit-2"></div>
+  <div class="circle-orbit circle-orbit-3"></div>
+  <div class="grid-lines"></div>
+  <div class="floating-dots">
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
   </div>
 </div>
 
-<!-- SERVICES -->
-<section id="services">
-  <div class="services-header reveal">
-    <div>
-      <div class="section-tag">What We Do</div>
-      <h2 class="section-title">Everything your brand needs to<br>dominate search</h2>
-    </div>
-    <p class="section-sub">From technical foundations to AI-powered content strategies — we handle the full stack of digital visibility.</p>
-  </div>
-  <div class="services-grid">
-    <div class="service-card reveal">
-      <div class="service-icon">🔍</div>
-      <h3>Technical SEO Audit</h3>
-      <p>Deep-dive crawls uncovering every issue slowing your site down — indexing errors, Core Web Vitals, schema gaps.</p>
-      <span class="service-tag">→ Foundation</span>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-icon">🌍</div>
-      <h3>GEO Intelligence</h3>
-      <p>Generative Engine Optimization — making your brand the answer in ChatGPT, Perplexity, Gemini, and AI-powered search.</p>
-      <span class="service-tag">→ Future-Proof</span>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-icon">✍️</div>
-      <h3>Content Strategy</h3>
-      <p>Topical authority maps, semantic clusters, and AI-assisted content that ranks and converts — not just fills pages.</p>
-      <span class="service-tag">→ Authority</span>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-icon">🔗</div>
-      <h3>Link Building</h3>
-      <p>White-hat digital PR and link acquisition from high-authority domains that move your Domain Rating needle.</p>
-      <span class="service-tag">→ Authority</span>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-icon">📍</div>
-      <h3>Local SEO</h3>
-      <p>Google Business Profile optimization, local citations, and geo-targeted content to dominate your city and region.</p>
-      <span class="service-tag">→ Local Reach</span>
-    </div>
-    <div class="service-card reveal">
-      <div class="service-icon">📊</div>
-      <h3>Analytics & Reporting</h3>
-      <p>Real-time dashboards with revenue attribution, ranking trends, and competitive intelligence — not vanity metrics.</p>
-      <span class="service-tag">→ Data-Driven</span>
-    </div>
-  </div>
-</section>
+<!-- Main Container -->
+<div class="container">
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">OLUM.ai</div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+    </nav>
+  </header>
 
-<!-- PROCESS -->
-<section id="process">
-  <div class="process-header reveal">
-    <div class="section-tag">Our Process</div>
-    <h2 class="section-title">From audit to results in 4 steps</h2>
-    <p class="section-sub">A proven sprint-based framework that ships improvements weekly, not quarterly.</p>
-  </div>
-  <div class="steps">
-    <div class="step" style="transition-delay:0s">
-      <div class="step-num">01</div>
-      <h3>Deep Audit</h3>
-      <p>We run a comprehensive technical, content, and competitor audit to find every growth opportunity.</p>
+  <!-- Hero Section -->
+  <main class="hero">
+    <div class="badge">
+      <span class="badge-dot"></span>
+      AI-Powered SEO · GEO · Lead Intelligence
     </div>
-    <div class="step" style="transition-delay:0.15s">
-      <div class="step-num">02</div>
-      <h3>Strategy Sprint</h3>
-      <p>We build a 90-day roadmap prioritized by impact. High-leverage quick wins first, then long-term plays.</p>
-    </div>
-    <div class="step" style="transition-delay:0.3s">
-      <div class="step-num">03</div>
-      <h3>Execute & Build</h3>
-      <p>Our team executes — technical fixes, content production, link outreach — all tracked in your live dashboard.</p>
-    </div>
-    <div class="step" style="transition-delay:0.45s">
-      <div class="step-num">04</div>
-      <h3>Scale & Report</h3>
-      <p>Monthly reviews, iterative improvements, and transparent reporting tied to real revenue impact.</p>
-    </div>
-  </div>
-</section>
+    
+    <h1>
+      Let's Grow Your <span class="highlight">Revenue</span><br>
+      Through Digital Marketing.
+    </h1>
+    
+    <p>
+      Analyze your website to identify SEO errors, keyword opportunities, and competition. Get your personalized 7-week action plan in minutes.
+    </p>
+    
+    <form class="input-group" id="analyzeForm">
+      <input 
+        type="url" 
+        class="url-input" 
+        placeholder="What is the URL of your website?"
+        required
+        id="websiteUrl"
+      >
+      <button type="submit" class="submit-btn" id="submitBtn">
+        START MY ANALYSIS
+      </button>
+    </form>
+    
+    <p class="helper-text">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+      </svg>
+      Get the answer in minutes.
+    </p>
 
-<!-- GEO FEATURE -->
-<section id="geo">
-  <div class="geo-grid">
-    <div class="reveal">
-      <div class="section-tag">GEO Intelligence</div>
-      <h2 class="section-title">Be the answer in AI search — not just Google</h2>
-      <p class="section-sub">As AI answers replace 10 blue links, GEO is the new SEO. We optimize your brand's presence in LLM-generated responses.</p>
-      <div class="geo-features">
-        <div class="geo-feature">
-          <div class="geo-feature-icon">🤖</div>
-          <div>
-            <strong>LLM Visibility Tracking</strong>
-            <span>Monitor how often and how accurately AI models reference your brand vs competitors.</span>
-          </div>
-        </div>
-        <div class="geo-feature">
-          <div class="geo-feature-icon">🧠</div>
-          <div>
-            <strong>Entity Optimization</strong>
-            <span>Structure your content and schema so AI models confidently cite you as the authority.</span>
-          </div>
-        </div>
-        <div class="geo-feature">
-          <div class="geo-feature-icon">📡</div>
-          <div>
-            <strong>Citation Monitoring</strong>
-            <span>Track real-time brand mentions across Perplexity, ChatGPT, Gemini, and Claude.</span>
-          </div>
-        </div>
+    <!-- Stats -->
+    <div class="stats">
+      <div class="stat-item">
+        <span class="stat-number" data-target="4800000">0</span>
+        <span class="stat-label">Keywords Tracked</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="12000">0</span>
+        <span class="stat-label">Active Users</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="340">0</span>
+        <span class="stat-label">% Avg Growth</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-number" data-target="98">0</span>
+        <span class="stat-label">% Accuracy Score</span>
       </div>
     </div>
-    <div class="geo-visual reveal">
-      <div class="geo-map"></div>
-      <div class="geo-dots">
-        <div class="geo-dot" style="top:28%;left:22%"></div>
-        <div class="geo-dot" style="top:45%;left:65%;animation-delay:1s"></div>
-        <div class="geo-dot" style="top:62%;left:38%;animation-delay:2s"></div>
-        <div class="geo-dot" style="top:20%;left:72%;animation-delay:0.5s"></div>
-        <div class="geo-dot" style="top:72%;left:75%;animation-delay:1.5s"></div>
-      </div>
-      <div class="geo-line" style="width:80%;left:10%"></div>
-      <div class="geo-label" style="top:26%;left:28%">ChatGPT ✓</div>
-      <div class="geo-label" style="top:43%;left:52%">Perplexity ✓</div>
-      <div class="geo-label" style="top:60%;left:15%">Gemini ✓</div>
-      <div class="geo-badge">
-        <div class="geo-badge-icon">📈</div>
-        <div>
-          <strong>AI Answer Presence Up 284%</strong>
-          <span>Average client improvement after 90 days with Olum GEO</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </main>
 
-<!-- RESULTS -->
-<section id="results">
-  <div class="reveal">
-    <div class="section-tag" style="justify-content:center">Proven Results</div>
-    <h2 class="section-title" style="text-align:center;margin-inline:auto">Numbers that actually matter</h2>
-  </div>
-  <div class="metrics-grid">
-    <div class="metric-card reveal">
-      <div class="big">3.8<span>x</span></div>
-      <p>Average organic traffic growth within 6 months</p>
+  <!-- Footer -->
+  <footer class="footer">
+    <ul class="footer-links">
+      <li><a href="#">Privacy</a></li>
+      <li><a href="#">Terms</a></li>
+      <li><a href="#">Contact</a></li>
+    </ul>
+    <div class="footer-social">
+      <a href="#" class="social-icon">𝕏</a>
+      <a href="#" class="social-icon">in</a>
+      <a href="#" class="social-icon">gh</a>
     </div>
-    <div class="metric-card reveal">
-      <div class="big">500<span>+</span></div>
-      <p>Brands ranking #1 for their core keywords</p>
-    </div>
-    <div class="metric-card reveal">
-      <div class="big">₹2.4<span>B+</span></div>
-      <p>In annual organic revenue driven for clients</p>
-    </div>
-    <div class="metric-card reveal">
-      <div class="big">98<span>%</span></div>
-      <p>Client retention rate — results speak for themselves</p>
-    </div>
-  </div>
-</section>
-
-<!-- TESTIMONIALS -->
-<section id="testimonials">
-  <div class="testi-header reveal">
-    <div>
-      <div class="section-tag">Client Love</div>
-      <h2 class="section-title">Real results from real brands</h2>
-    </div>
-  </div>
-  <div class="testi-grid">
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p>"Olum took our organic traffic from 4K to 38K monthly visitors in under a year. The GEO strategy alone generated 3 enterprise leads from AI search."</p>
-      <div class="testi-author">
-        <div class="avatar" style="background:#C8F54A">RK</div>
-        <div>
-          <strong>Ravi Kumar</strong>
-          <span>CEO, NexaSaaS</span>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p>"The transparency is incredible — weekly updates, live dashboards, and an account manager who actually understands our business. 10x ROI in 8 months."</p>
-      <div class="testi-author">
-        <div class="avatar" style="background:#4AF5C8">PM</div>
-        <div>
-          <strong>Priya Menon</strong>
-          <span>CMO, UrbanCart</span>
-        </div>
-      </div>
-    </div>
-    <div class="testi-card reveal">
-      <div class="stars">★★★★★</div>
-      <p>"Not just SEO — they transformed how our brand is perceived by AI models. We show up in ChatGPT answers for our niche. Nothing else comes close."</p>
-      <div class="testi-author">
-        <div class="avatar" style="background:#F5C84A">AS</div>
-        <div>
-          <strong>Arjun Shah</strong>
-          <span>Founder, LegalHQ India</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing">
-  <div class="pricing-header reveal">
-    <div class="section-tag" style="justify-content:center">Simple Pricing</div>
-    <h2 class="section-title">No hidden fees. No surprises.</h2>
-    <p class="section-sub" style="text-align:center;margin-inline:auto">All plans include onboarding, a dedicated account manager, and monthly reporting.</p>
-  </div>
-  <div class="pricing-grid">
-    <div class="pricing-card reveal">
-      <div class="plan-name">Starter</div>
-      <div class="plan-price"><sup>₹</sup>29,999<sub>/mo</sub></div>
-      <p class="plan-desc">For growing businesses ready to build organic visibility.</p>
-      <ul class="plan-features">
-        <li>Technical SEO audit</li>
-        <li>8 optimized pages/month</li>
-        <li>Local SEO setup</li>
-        <li>Monthly report</li>
-        <li>Email support</li>
-      </ul>
-      <button class="plan-btn outline">Get Started</button>
-    </div>
-    <div class="pricing-card featured reveal">
-      <div class="featured-badge">Most Popular</div>
-      <div class="plan-name">Growth</div>
-      <div class="plan-price"><sup>₹</sup>59,999<sub>/mo</sub></div>
-      <p class="plan-desc">For brands serious about dominating search and AI results.</p>
-      <ul class="plan-features">
-        <li>Full technical SEO</li>
-        <li>20 pages + content strategy</li>
-        <li>GEO Intelligence (AI Search)</li>
-        <li>Link building — 10/mo</li>
-        <li>Weekly reporting</li>
-        <li>Dedicated account manager</li>
-      </ul>
-      <button class="plan-btn solid">Get Started</button>
-    </div>
-    <div class="pricing-card reveal">
-      <div class="plan-name">Enterprise</div>
-      <div class="plan-price" style="font-size:2rem;align-items:center;gap:0">Custom</div>
-      <p class="plan-desc">For large brands with complex needs and aggressive growth goals.</p>
-      <ul class="plan-features">
-        <li>Everything in Growth</li>
-        <li>Unlimited pages</li>
-        <li>Full GEO stack</li>
-        <li>Competitor intelligence</li>
-        <li>24/7 priority support</li>
-        <li>Executive strategy calls</li>
-      </ul>
-      <button class="plan-btn outline">Contact Us</button>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<section id="cta">
-  <div class="cta-glow"></div>
-  <div class="reveal">
-    <div class="section-tag" style="justify-content:center">Ready?</div>
-    <h2 class="section-title">Start ranking.<br><span style="color:var(--accent)">Start growing.</span></h2>
-    <p class="section-sub">Get a free, no-obligation SEO & GEO audit — we'll show you exactly where you're leaving traffic on the table.</p>
-    <div class="cta-actions">
-      <a href="mailto:hello@olum.in" class="btn-primary">Get Free Audit →</a>
-      <a href="tel:+919999999999" class="btn-secondary">📞 Call Us</a>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div class="footer-top">
-    <div class="footer-brand">
-      <span class="logo">Olum<span>.</span></span>
-      <p>India's leading SEO & GEO intelligence agency. We make brands impossible to ignore — in search engines and in AI.</p>
-    </div>
-    <div class="footer-col">
-      <h4>Services</h4>
-      <ul>
-        <li><a href="#">Technical SEO</a></li>
-        <li><a href="#">GEO Intelligence</a></li>
-        <li><a href="#">Content Strategy</a></li>
-        <li><a href="#">Link Building</a></li>
-        <li><a href="#">Local SEO</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Company</h4>
-      <ul>
-        <li><a href="#">About Olum</a></li>
-        <li><a href="#">Case Studies</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Careers</a></li>
-      </ul>
-    </div>
-    <div class="footer-col">
-      <h4>Contact</h4>
-      <ul>
-        <li><a href="#">hello@olum.in</a></li>
-        <li><a href="#">Coimbatore, TN</a></li>
-        <li><a href="#">+91 99999 99999</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="footer-bottom">
-    <p>© 2025 <span>Olum</span>. All rights reserved.</p>
-    <div class="socials">
-      <a href="#" class="social-btn">in</a>
-      <a href="#" class="social-btn">X</a>
-      <a href="#" class="social-btn">IG</a>
-    </div>
-  </div>
-</footer>
-
-<button class="float-btn">🚀 Free Audit</button>
+  </footer>
+</div>
 
 <script>
-  // Cursor
-  const cursor=document.getElementById('cursor'),follow=document.getElementById('cursorFollow');
-  let mx=0,my=0,fx=0,fy=0;
-  document.addEventListener('mousemove',e=>{
-    mx=e.clientX;my=e.clientY;
-    cursor.style.left=mx+'px';cursor.style.top=my+'px';
-  });
-  function animateCursor(){
-    fx+=(mx-fx)*0.12;fy+=(my-fy)*0.12;
-    follow.style.left=fx+'px';follow.style.top=fy+'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-
-  // Sticky nav
-  window.addEventListener('scroll',()=>{
-    document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
-  });
-
-  // Scroll reveal
-  const observer=new IntersectionObserver(entries=>{
-    entries.forEach(e=>{
-      if(e.isIntersecting){
-        e.target.classList.add('visible');
-        if(e.target.classList.contains('step'))e.target.classList.add('visible');
+// Animated counter for stats
+function animateCounter(element) {
+  const target = parseInt(element.getAttribute('data-target'));
+  const duration = 2000;
+  const start = 0;
+  const increment = target / (duration / 16);
+  let current = start;
+  
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      element.textContent = target >= 1000 ? (target / 1000).toFixed(1) + 'K+' : target + '%';
+      clearInterval(timer);
+    } else {
+      if (target >= 1000) {
+        element.textContent = Math.floor(current / 1000) + 'K+';
+      } else {
+        element.textContent = Math.floor(current) + '%';
       }
-    });
-  },{threshold:0.12});
-  document.querySelectorAll('.reveal,.step').forEach(el=>observer.observe(el));
+    }
+  }, 16);
+}
 
-  // Stagger service cards
-  document.querySelectorAll('.service-card.reveal').forEach((el,i)=>{
-    el.style.transitionDelay=(i*0.08)+'s';
-  });
+// Trigger counter animation on load
+window.addEventListener('load', () => {
+  const statNumbers = document.querySelectorAll('.stat-number');
+  setTimeout(() => {
+    statNumbers.forEach(el => animateCounter(el));
+  }, 1000);
+});
+
+// Create particles on button hover
+const submitBtn = document.getElementById('submitBtn');
+submitBtn.addEventListener('mouseenter', function(e) {
+  for (let i = 0; i < 12; i++) {
+    setTimeout(() => {
+      createParticle(e.pageX, e.pageY);
+    }, i * 50);
+  }
+});
+
+function createParticle(x, y) {
+  const particle = document.createElement('div');
+  particle.className = 'particle';
+  particle.style.left = x + 'px';
+  particle.style.top = y + 'px';
+  
+  const angle = Math.random() * Math.PI * 2;
+  const distance = 50 + Math.random() * 50;
+  const tx = Math.cos(angle) * distance;
+  const ty = Math.sin(angle) * distance;
+  
+  particle.style.setProperty('--tx', tx + 'px');
+  particle.style.setProperty('--ty', ty + 'px');
+  
+  document.body.appendChild(particle);
+  
+  setTimeout(() => {
+    particle.remove();
+  }, 1000);
+}
+
+// Form submission - redirect to dashboard
+const form = document.getElementById('analyzeForm');
+const urlInput = document.getElementById('websiteUrl');
+
+form.addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const url = urlInput.value;
+  if (!url) return;
+  
+  // Add loading state
+  submitBtn.classList.add('loading');
+  submitBtn.textContent = 'ANALYZING...';
+  
+  // Simulate analysis and redirect to dashboard
+  setTimeout(() => {
+    // Store the URL in sessionStorage
+    sessionStorage.setItem('websiteUrl', url);
+    // Redirect to dashboard
+    window.location.href = 'dashboard.html';
+  }, 2000);
+});
+
+// Input animation on focus
+urlInput.addEventListener('focus', function() {
+  for (let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      const rect = urlInput.getBoundingClientRect();
+      createParticle(
+        rect.left + Math.random() * rect.width,
+        rect.top + Math.random() * rect.height
+      );
+    }, i * 100);
+  }
+});
+
+// Cursor trail effect
+let lastX = 0, lastY = 0;
+let trailTimeout;
+
+document.addEventListener('mousemove', function(e) {
+  if (Math.abs(e.pageX - lastX) > 50 || Math.abs(e.pageY - lastY) > 50) {
+    lastX = e.pageX;
+    lastY = e.pageY;
+    
+    clearTimeout(trailTimeout);
+    trailTimeout = setTimeout(() => {
+      if (Math.random() > 0.7) {
+        createParticle(e.pageX, e.pageY);
+      }
+    }, 100);
+  }
+});
+
+// Logo animation on click
+document.querySelector('.logo').addEventListener('click', function() {
+  this.style.transform = 'scale(0.95)';
+  setTimeout(() => {
+    this.style.transform = 'scale(1)';
+  }, 200);
+  
+  for (let i = 0; i < 20; i++) {
+    setTimeout(() => {
+      const rect = this.getBoundingClientRect();
+      createParticle(
+        rect.left + rect.width / 2,
+        rect.top + rect.height / 2
+      );
+    }, i * 30);
+  }
+});
 </script>
+
 </body>
 </html>
